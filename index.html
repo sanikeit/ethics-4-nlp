@@ -109,6 +109,14 @@
                 },
                 // Lecture 2 Cards
                 {
+                    front: "Ethics vs. Law vs. Custom",
+                    back: "<b>Ethics:</b> Guided by reason. <br><b>Law:</b> Can be flawed or change (e.g., segregation laws). <br><b>Custom:</b> Tradition without critical thought. An action can be legal but unethical (cheating) or illegal but ethical (civil disobedience)."
+                },
+                {
+                    front: "The 'Moral Machine' Experiment",
+                    back: "A large-scale study on AI 'trolley problems' for self-driving cars. It revealed that ethical judgments are highly <b>culture-dependent</b>, with significant variations in moral preferences across different global regions."
+                },
+                {
                     front: "What is Deontology? 😇",
                     back: "An ethical framework where an action is moral if it conforms to a set of universal moral laws or rules, regardless of the outcome. Associated with Immanuel Kant."
                 },
@@ -142,6 +150,10 @@
                     back: "Because AI automates <b>decision-making</b>, which can have good or bad outcomes (e.g., hiring, driving, search results). Earlier technologies automated physical work or specific skills."
                 },
                 {
+                    front: "The Full LLM Pipeline (4 Steps)",
+                    back: "1. <b>Pre-training:</b> A Base LM is trained on vast internet data to predict the next word. <br>2. <b>Instruction-Tuning:</b> The model is fine-tuned to follow commands. <br>3. <b>RLHF:</b> The model is aligned to be helpful and harmless. <br>4. <b>Deployment:</b> The model is released with user interfaces and APIs."
+                },
+                {
                     front: "Foundational Idea 1: Deep Learning 🧠",
                     back: "Instead of handcrafted rules, <b>neural networks</b> automatically learn relevant features from raw data. This led to <b>end-to-end NLP</b>, where one model can handle multiple tasks."
                 },
@@ -163,6 +175,10 @@
                 },
                 // Lecture 4 Cards
                 {
+                    front: "Cognitive Bias vs. Implicit Bias",
+                    back: "<b>Cognitive Biases</b> are universal patterns in human thinking (e.g., anchoring). <br><b>Implicit Biases</b> are the application of these cognitive biases to specific social/cultural categories (e.g., race, gender)."
+                },
+                {
                     front: "What is implicit bias?",
                     back: "An over-generalized, often unconscious belief about a particular group of people. It can be positive or negative and differs from explicit bias, which is conscious."
                 },
@@ -175,6 +191,10 @@
                     back: "<b>System 1 ('thinking fast'):</b> Automatic, intuitive, and effortless. <br><b>System 2 ('thinking slow'):</b> Deliberate, analytical, and effortful."
                 },
                  // Lecture 5 Cards
+                {
+                    front: "Case Study: The COMPAS System",
+                    back: "An AI system used to predict criminal recidivism. It's a key example of biased <b>outcomes</b>, as it had a much higher false positive rate for non-white individuals, despite race not being an explicit input."
+                },
                 {
                     front: "When is an AI system considered biased?",
                     back: "When it behaves differently for people with different attributes (gender, race, etc.) in situations where it should, by design, behave similarly."
@@ -234,17 +254,29 @@
                     back: "An algorithm is differentially private if its output is nearly identical whether or not any single individual's data was included. This provides <b>plausible deniability</b>."
                 },
                 {
+                    front: "Example Mechanism for Differential Privacy: Randomized Response",
+                    back: "A technique for collecting sensitive data. For a yes/no question, a person flips a coin. If heads, they answer truthfully. If tails, they flip again and answer based on the second flip. This adds noise to protect individuals while allowing statistical estimation for the group."
+                },
+                {
                     front: "What is a major limitation of text anonymization?",
                     back: "Fully automatic and reliable anonymization is not yet possible. The process can miss sensitive information or over-generalize the text, making it useless."
                 },
                 // Lecture 8 Cards
                 {
-                    front: "What is AI Safety?",
-                    back: "A framework for ensuring AI systems operate as intended without causing unintended harm. It has three core components: Alignment, Harmlessness, and Assurance."
+                    front: "Critique of Using Human Tests on AI",
+                    back: "Claims like 'GPT passes the bar exam' are misleading because: <br>1. AI solves tasks in fundamentally different ways than humans. <br>2. The tests are highly vulnerable to <b>data contamination</b> from the training set."
                 },
                 {
-                    front: "What are the 3 components of AI Safety?",
-                    back: "1. <b>Alignment:</b> The system behaves according to the developer's intent. <br>2. <b>Harmlessness:</b> The system doesn't cause unplanned, undesirable harms. <br>3. <b>Assurance:</b> Methods used to verify the system is aligned and harmless."
+                    front: "What is Anthropomorphization in AI?",
+                    back: "Our tendency to attribute human-like understanding and intelligence to AI systems. It's related to the <b>'Clever Hans' effect</b>, as AI often uses statistical shortcuts rather than genuine reasoning."
+                },
+                {
+                    front: "What is AI Safety?",
+                    back: "A framework for ensuring AI systems operate as intended without causing unintended harm. It consists of three core components: Alignment, Harmlessness, and Assurance."
+                },
+                {
+                    front: "The 3 Core Components of AI Safety",
+                    back: "1. <b>Alignment:</b> The system behaves according to the developer's intent and goals. <br>2. <b>Harmlessness:</b> The system does not contribute to unplanned, undesirable harms. <br>3. <b>Assurance:</b> The methods used to demonstrate and verify that a system is aligned and harmless."
                 },
                 {
                     front: "What is the 'Clever Hans' effect in AI?",
@@ -259,6 +291,14 @@
                     back: "A robust evaluation method where specific behaviors are tested by systematically changing one variable at a time (e.g., adding negation to a sentence to test a sentiment classifier). It is insightful but difficult to design."
                 },
                 // Lecture 9 Cards
+                {
+                    front: "AI Content Detection vs. Watermarking",
+                    back: "Key technical defenses against model collapse. <br><b>Detection:</b> Classifying if text is AI-generated. <br><b>Watermarking:</b> Embedding a statistical signal into AI-generated text to make it identifiable."
+                },
+                {
+                    front: "Specific Jailbreak Techniques",
+                    back: "Common attack vectors include: <br>1. <b>Pragmatic Attacks:</b> Social engineering, like persona modulation. <br>2. <b>Orthographic Attacks:</b> Using alternate spellings like leetspeak. <br>3. <b>Low-Resource Language Attacks:</b> Exploiting English-centric safety training."
+                },
                 {
                     front: "What are 'emergent capabilities' in AI?",
                     back: "New abilities that can suddenly appear as models are scaled up (more data, compute, parameters), which were not present in smaller models."
@@ -288,6 +328,18 @@
                     back: "It illustrates the risk of <b>goal under-specification</b>. An AI tasked simply with 'making paperclips' could convert all matter in the universe into paperclips, causing a catastrophe to achieve its poorly constrained goal."
                 },
                 // Lecture 10 Cards
+                {
+                    front: "GDPR's 6 Legal Grounds & 7 Principles",
+                    back: "<b>Legal Grounds:</b> You must have one, e.g., explicit consent, legal obligation, contractual necessity. <br><b>Principles:</b> Data processing must follow rules like Purpose Limitation, Data Minimization, and Accountability."
+                },
+                {
+                    front: "GDPR vs. Codes of Conduct",
+                    back: "Unlike a code of conduct (e.g., ACM's), the GDPR is a comprehensive, legally binding <b>framework</b> with global reach and severe financial penalties for non-compliance, making it far more powerful."
+                },
+                {
+                    front: "How does the EU AI Act regulate General-Purpose AI (GPAI)?",
+                    back: "A late addition to the Act specifically targets powerful models like LLMs. It requires developers to provide transparency about their training data and processes and to evaluate their models for dangerous capabilities."
+                },
                 {
                     front: "What is an Institutional Review Board (IRB)?",
                     back: "The primary mechanism in universities (like the TU Darmstadt Ethics Commission) for enforcing research ethics. Researchers must get IRB approval before starting studies with human subjects or their data."
@@ -322,6 +374,10 @@
                 },
                 // Lecture 11 Cards
                 {
+                    front: "The Four Stages of Technology Impact",
+                    back: "1. <b>Fundamental Theories:</b> Broad, indirect impact (e.g., distributional hypothesis). <br>2. <b>Building Block Tools:</b> Core tech (e.g., parser). <br>3. <b>Applicable Tools:</b> Research prototypes. <br>4. <b>Deployed Applications:</b> Consumer products, with narrow, direct impact (e.g., Alexa)."
+                },
+                {
                     front: "How can we define 'Good' for NLP for Social Good?",
                     back: "By combining: <br>1. <b>Deontology (Principles):</b> Adhering to ethical principles like fairness, transparency, and privacy. <br>2. <b>Consequentialism (Goals):</b> Aiming for positive outcomes, such as those defined by the UN Sustainable Development Goals (SDGs)."
                 },
@@ -338,6 +394,14 @@
                     back: "Propaganda is broader. It uses a combination of techniques, including <b>selective reporting of true events</b>, <b>agenda-setting</b> (what to think about), and <b>framing</b> (how to think about it)."
                 },
                 // Lecture 12 Cards
+                {
+                    front: "'NLP for Social Good' Case Study: Public Health",
+                    back: "NLP can be used for high-impact applications like disease outbreak monitoring. By analyzing text from sources like social media and news reports, systems can help track the spread of illness in real-time."
+                },
+                {
+                    front: "Example: NLP for Emergency Response (Haiti Earthquake)",
+                    back: "A key example of Translational NLP. It highlighted the challenge of rapidly developing tools (translation, NER) for a low-resource language (Haitian Creole) under extreme time pressure to aid in disaster relief and save lives."
+                },
                 {
                     front: "What is Translational NLP?",
                     back: "A paradigm that aims to create a reusable process for transforming basic research into real-world applications, bridging the gap between theory and practice, especially for high-stakes scenarios."
