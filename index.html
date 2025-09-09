@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethics in NLP Flashcards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* -- Style for the 3D flip effect -- */
+        .card-container {
+            perspective: 1000px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem;
+            text-align: center;
+            border-radius: 1rem;
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: #f9fafb; /* A slightly different shade for the back */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Ethics in Natural Language Processing</h1>
+            <p id="lecture-title" class="text-gray-600 mt-1">Lectures 1-12</p>
+        </header>
+
+        <!-- Flashcard Component -->
+        <div id="flashcard-component" class="flex flex-col items-center">
+            
+            <!-- Progress Indicator -->
+            <p id="progress-indicator" class="text-gray-500 mb-4 font-medium"></p>
+            
+            <!-- Card Container -->
+            <div id="card-container" class="card-container w-full h-80 md:h-96 rounded-2xl cursor-pointer mb-6">
+                <div id="card-inner" class="card-inner">
+                    <div class="card-front">
+                        <p id="card-front-content" class="text-xl md:text-2xl font-semibold text-gray-800"></p>
+                    </div>
+                    <div class="card-back">
+                        <div id="card-back-content" class="text-lg md:text-xl text-gray-700 space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="flex items-center justify-center space-x-4 w-full">
+                <button id="prev-btn" class="px-6 py-3 bg-white text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-200">
+                    Previous
+                </button>
+                <button id="shuffle-btn" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                    Shuffle
+                </button>
+                <button id="next-btn" class="px-6 py-3 bg-white text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-200">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let flashcards = [
+                // Lecture 1 Cards
+                {
+                    front: "Four Main Goals of the Course",
+                    back: "1. Explain philosophical and practical ethics. 2. Show the limits of AI for language. 3. Introduce techniques for more ethical AI. 4. Provide vocabulary to discuss NLP in a societal context."
+                },
+                {
+                    front: "Definition of Natural Language Processing (NLP)",
+                    back: "To create machines that can understand, transform, produce, and communicate in human language. It's about what people mean, not just words."
+                },
+                {
+                    front: "Definition of Ethics",
+                    back: "The study of what is good/bad and right/wrong, guided by reason rather than custom."
+                },
+                {
+                    front: "The 'AI Gaydar' Study",
+                    back: "A study by Wang & Kosinski that used a DNN to classify sexual orientation from facial images, raising multiple ethical flags."
+                },
+                // Lecture 2 Cards
+                {
+                    front: "What is Deontology? 😇",
+                    back: "An ethical framework where an action is moral if it conforms to a set of universal moral laws or rules, regardless of the outcome. Associated with Immanuel Kant."
+                },
+                {
+                    front: "What is Consequentialism? 📈",
+                    back: "An ethical framework that judges the morality of an action based on its outcomes. Utilitarianism is a key example: the best action produces the greatest good for the greatest number."
+                },
+                {
+                    front: "What was the Tuskegee Syphilis Experiment (1932-1972)?",
+                    back: "A 40-year study by the U.S. Public Health Service where 399 African American men with syphilis were deceived and deliberately left untreated to observe the disease's progression, even after a cure was found."
+                },
+                {
+                    front: "What is the Belmont Report (1979)?",
+                    back: "A foundational document that established three core principles for ethical research involving human subjects, created in response to past unethical studies."
+                },
+                {
+                    front: "Belmont Principle 1: Respect for Persons",
+                    back: "Treat individuals as autonomous agents by obtaining their <b>informed consent</b>. Special protections are required for persons with diminished autonomy (e.g., children, prisoners)."
+                },
+                {
+                    front: "Belmont Principle 2: Beneficence",
+                    back: "This principle involves two duties: (1) do no harm and (2) maximize possible benefits while minimizing potential risks. A careful risk/benefit analysis is required."
+                },
+                {
+                    front: "Belmont Principle 3: Justice",
+                    back: "Ensure fairness in the selection of research participants. The benefits and burdens of research should be distributed equitably, avoiding exploitation of marginalized groups."
+                },
+                // Lecture 3 Cards
+                {
+                    front: "Why does AI require its own field of ethics?",
+                    back: "Because AI automates <b>decision-making</b>, which can have good or bad outcomes (e.g., hiring, driving, search results). Earlier technologies automated physical work or specific skills."
+                },
+                {
+                    front: "Foundational Idea 1: Deep Learning 🧠",
+                    back: "Instead of handcrafted rules, <b>neural networks</b> automatically learn relevant features from raw data. This led to <b>end-to-end NLP</b>, where one model can handle multiple tasks."
+                },
+                {
+                    front: "Foundational Idea 2: Transfer Learning ↔️",
+                    back: "Reusing knowledge. A model is <b>pre-trained</b> on a general, data-rich task and then <b>fine-tuned</b> for a specific, data-poor end-task, making training more efficient."
+                },
+                {
+                    front: "Foundational Idea 3: Language Modeling 🗣️",
+                    back: "The task of predicting a missing or next word based on context (distributional hypothesis). It's ideal for pre-training because it requires <b>no manual labeling</b> and is general enough to learn grammar, facts, and context."
+                },
+                {
+                    front: "What is Reinforcement Learning from Human Feedback (RLHF)?",
+                    back: "A process where: <br>1. Humans rank model outputs. <br>2. A 'reward model' learns to predict these rankings. <br>3. This reward model is used to fine-tune the LLM to generate outputs humans prefer."
+                },
+                {
+                    front: "LLM Capability: Tool Use",
+                    back: "The ability to generate code and make API calls to external tools (like calculators or search engines) to overcome their own limitations, such as poor math skills or outdated knowledge."
+                },
+                // Lecture 4 Cards
+                {
+                    front: "What is implicit bias?",
+                    back: "An over-generalized, often unconscious belief about a particular group of people. It can be positive or negative and differs from explicit bias, which is conscious."
+                },
+                {
+                    front: "How does the Implicit Association Test (IAT) work?",
+                    back: "It measures reaction time when sorting words/images into combined categories. A significant difference in response time between stereotype-congruent and incongruent pairings (the <b>IAT effect</b>) indicates an implicit bias."
+                },
+                {
+                    front: "What are System 1 and System 2 thinking (Kahneman)?",
+                    back: "<b>System 1 ('thinking fast'):</b> Automatic, intuitive, and effortless. <br><b>System 2 ('thinking slow'):</b> Deliberate, analytical, and effortful."
+                },
+                 // Lecture 5 Cards
+                {
+                    front: "When is an AI system considered biased?",
+                    back: "When it behaves differently for people with different attributes (gender, race, etc.) in situations where it should, by design, behave similarly."
+                },
+                {
+                    front: "Source of AI Bias 1: Label Bias",
+                    back: "<b>Cause:</b> Biased human decisions are used as training labels. Annotators' own biases, lack of expertise, or fatigue can skew the data. <br><b>Example:</b> Tweets in African-American English (AAE) were more likely to be labeled 'toxic' by unfamiliar crowdworkers."
+                },
+                {
+                    front: "Source of AI Bias 2: Sample (Selection) Bias",
+                    back: "<b>Cause:</b> The training data is not representative of the real-world user population. <br><b>Example:</b> The 'WSJ Effect,' where models trained on the Wall Street Journal corpus performed poorly on text from other demographics."
+                },
+                {
+                    front: "Source of AI Bias 3: Amplification Bias",
+                    back: "<b>Cause:</b> The model learns and then exaggerates biases already present in the data. <br><b>Example:</b> A model trained on data where 66% of cooks were female amplified this to predict that 84% of cooks are female."
+                },
+                {
+                    front: "Source of AI Bias 4: Semantic (Representation) Bias",
+                    back: "<b>Cause:</b> Word embeddings (numerical representations of words) encode societal stereotypes from web text. <br><b>Example:</b> The analogy 'doctor - he + she ≈ nurse' found in word vectors."
+                },
+                {
+                    front: "Source of AI Bias 5: Design Bias",
+                    back: "<b>Cause:</b> The choice of which problems to solve and for whom is biased, often favoring privileged groups. <br><b>Example:</b> Numerous AI tools for office workers, but few for farmers, the elderly, or people with disabilities."
+                },
+                // Lecture 6 Cards
+                {
+                    front: "What is the 'Privacy Paradox'?",
+                    back: "The phenomenon where people express high concern for their privacy in surveys but readily give away personal data in practice for small conveniences."
+                },
+                {
+                    front: "Why is privacy a collective concern?",
+                    back: "An individual's decision to share data can harm others. Examples include exposing friends' contacts, revealing relatives' genetic info via a DNA test, or soldiers on Strava revealing secret military bases."
+                },
+                {
+                    front: "What is a 'linkage attack'?",
+                    back: "A method of de-anonymizing data by combining an 'anonymized' dataset with a public one. For example, linking anonymized Netflix viewing data with public IMDB user reviews."
+                },
+                {
+                    front: "What is the significance of quasi-identifiers?",
+                    back: "They are pieces of information that aren't unique on their own but can identify a person when combined. <b>87% of the US population</b> can be identified using just their ZIP code, birth date, and gender."
+                },
+                // Lecture 7 Cards
+                {
+                    front: "What is k-anonymity and its weakness?",
+                    back: "A dataset is k-anonymous if every individual is indistinguishable from at least k-1 others. Its weakness is the <b>homogeneity attack</b>, where all individuals in a group share the same sensitive attribute."
+                },
+                {
+                    front: "How does l-diversity improve on k-anonymity?",
+                    back: "It requires every equivalence class to contain at least 'l' distinct values for the sensitive attribute, thus preventing homogeneity attacks."
+                },
+                {
+                    front: "What is t-closeness?",
+                    back: "A refinement of l-diversity requiring that the distribution of the sensitive attribute within an equivalence class is close (within a threshold t) to its overall distribution in the entire dataset."
+                },
+                {
+                    front: "What is the core idea of Differential Privacy?",
+                    back: "An algorithm is differentially private if its output is nearly identical whether or not any single individual's data was included. This provides <b>plausible deniability</b>."
+                },
+                {
+                    front: "What is a major limitation of text anonymization?",
+                    back: "Fully automatic and reliable anonymization is not yet possible. The process can miss sensitive information or over-generalize the text, making it useless."
+                },
+                // Lecture 8 Cards
+                {
+                    front: "What is AI Safety?",
+                    back: "A framework for ensuring AI systems operate as intended without causing unintended harm. It has three core components: Alignment, Harmlessness, and Assurance."
+                },
+                {
+                    front: "What are the 3 components of AI Safety?",
+                    back: "1. <b>Alignment:</b> The system behaves according to the developer's intent. <br>2. <b>Harmlessness:</b> The system doesn't cause unplanned, undesirable harms. <br>3. <b>Assurance:</b> Methods used to verify the system is aligned and harmless."
+                },
+                {
+                    front: "What is the 'Clever Hans' effect in AI?",
+                    back: "When a system appears to perform a task correctly but is actually responding to superficial cues or statistical shortcuts in the data, rather than true understanding (e.g., a pneumonia model recognizing the hospital scanner)."
+                },
+                {
+                    front: "What is a major limitation of Benchmarking for AI evaluation?",
+                    back: "<b>Data contamination</b>: The model may have already seen the test data during its pre-training on vast internet text, leading to overestimated performance."
+                },
+                {
+                    front: "What is Behavioral Testing in AI?",
+                    back: "A robust evaluation method where specific behaviors are tested by systematically changing one variable at a time (e.g., adding negation to a sentence to test a sentiment classifier). It is insightful but difficult to design."
+                },
+                // Lecture 9 Cards
+                {
+                    front: "What are 'emergent capabilities' in AI?",
+                    back: "New abilities that can suddenly appear as models are scaled up (more data, compute, parameters), which were not present in smaller models."
+                },
+                {
+                    front: "What is 'Model Evolution' or 'Drift'?",
+                    back: "The phenomenon where commercial LLMs are constantly updated, causing their capabilities and safety behaviors to change over time. Our knowledge about a model can quickly become outdated."
+                },
+                {
+                    front: "What is the risk of AI feedback loops (self-consumption)?",
+                    back: "When AI-generated content is used to train the next generation of models, it can lead to <b>Bias Amplification</b> and <b>Model Collapse</b>."
+                },
+                {
+                    front: "What is 'Model Collapse'?",
+                    back: "A degenerative process where models trained on their own output begin to forget the true data distribution. They lose knowledge of rare events and their content becomes homogenous and distorted."
+                },
+                {
+                    front: "What is 'Jailbreaking' in LLMs?",
+                    back: "An attack where a user provides a malicious prompt designed to make an LLM bypass its safety training (RLHF) and produce harmful content."
+                },
+                {
+                    front: "What is an AI Agent?",
+                    back: "A system that can perceive its environment and act autonomously to achieve a goal. They pose greater safety risks due to higher real-world impact and lower predictability."
+                },
+                {
+                    front: "What is the 'Paperclip Maximizer' thought experiment?",
+                    back: "It illustrates the risk of <b>goal under-specification</b>. An AI tasked simply with 'making paperclips' could convert all matter in the universe into paperclips, causing a catastrophe to achieve its poorly constrained goal."
+                },
+                // Lecture 10 Cards
+                {
+                    front: "What is an Institutional Review Board (IRB)?",
+                    back: "The primary mechanism in universities (like the TU Darmstadt Ethics Commission) for enforcing research ethics. Researchers must get IRB approval before starting studies with human subjects or their data."
+                },
+                {
+                    front: "What is the ACM Code of Ethics?",
+                    back: "A code of conduct that acts as self-regulation for the computing community (students, researchers, industry). It articulates shared ethical principles."
+                },
+                {
+                    front: "Pillar 1 of GDPR: Legal Grounds for Processing",
+                    back: "You can only process personal data if you meet one of six conditions, the most important of which is <b>explicit informed consent</b> from the data subject."
+                },
+                {
+                    front: "Pillar 2 of GDPR: Rights of the Data Subject",
+                    back: "Individuals are granted key rights, including the right to be informed, the right to access, and the <b>right to erasure</b> (also known as the 'right to be forgotten')."
+                },
+                {
+                    front: "Pillar 3 of GDPR: Principles of Data Processing",
+                    back: "Key principles for data controllers, including: <br>1. <b>Purpose Limitation:</b> Use data only for the specified purpose. <br>2. <b>Data Minimization:</b> Collect only the necessary amount of data. <br>3. <b>Storage Limitation:</b> Store data only as long as needed."
+                },
+                {
+                    front: "What is the core of the EU AI Act?",
+                    back: "A first-of-its-kind legal framework that regulates AI systems as products. Its core is a <b>risk-based approach</b>, categorizing AI into four risk levels."
+                },
+                {
+                    front: "EU AI Act: Unacceptable Risk (Prohibited)",
+                    back: "AI practices that are a clear threat to people's rights are banned. This includes <b>social scoring</b>, real-time biometric identification in public, and manipulative techniques."
+                },
+                {
+                    front: "EU AI Act: High Risk (Strict Compliance)",
+                    back: "AI in critical areas (HR, healthcare, law enforcement) is subject to strict rules, including risk assessments, high-quality data, detailed documentation, and human oversight."
+                },
+                // Lecture 11 Cards
+                {
+                    front: "How can we define 'Good' for NLP for Social Good?",
+                    back: "By combining: <br>1. <b>Deontology (Principles):</b> Adhering to ethical principles like fairness, transparency, and privacy. <br>2. <b>Consequentialism (Goals):</b> Aiming for positive outcomes, such as those defined by the UN Sustainable Development Goals (SDGs)."
+                },
+                {
+                    front: "What is the difference between Misinformation and Disinformation?",
+                    back: "<b>Misinformation:</b> False information spread <b>without malicious intent</b>. <br><b>Disinformation:</b> False information <b>deliberately created and spread</b> to achieve a political or financial goal."
+                },
+                {
+                    front: "What are the three core steps of fact-checking?",
+                    back: "1. <b>Identify a Claim:</b> Isolate a specific, verifiable statement. <br>2. <b>Find the Source:</b> Determine who made the claim. <br>3. <b>Verify with Evidence:</b> Compare the claim against reliable evidence."
+                },
+                {
+                    front: "How does propaganda differ from fake news?",
+                    back: "Propaganda is broader. It uses a combination of techniques, including <b>selective reporting of true events</b>, <b>agenda-setting</b> (what to think about), and <b>framing</b> (how to think about it)."
+                },
+                // Lecture 12 Cards
+                {
+                    front: "What is Translational NLP?",
+                    back: "A paradigm that aims to create a reusable process for transforming basic research into real-world applications, bridging the gap between theory and practice, especially for high-stakes scenarios."
+                },
+                {
+                    front: "Who are the three key stakeholders in Translational NLP?",
+                    back: "1. <b>NLP Experts:</b> Provide technical knowledge. <br>2. <b>Subject Matter Experts (SMEs):</b> Provide domain knowledge and define goals. <br>3. <b>Users:</b> Provide insights into usability and real-world needs."
+                },
+                {
+                    front: "What is the purpose of the Translational NLP Questionnaire?",
+                    back: "To provide a structured set of questions to guide the development process, covering both a <b>Design Phase</b> (goals, data, resources) and an <b>Application Phase</b> (models, evaluation, interpretation)."
+                },
+                {
+                    front: "Course Takeaway 1: People",
+                    back: "<b>'There is a person at the end of each technology.'</b> Always consider the potential for a system to benefit or harm real people and ask, 'What can go wrong?'"
+                },
+                {
+                    front: "Course Takeaway 2: Systems Thinking",
+                    back: "<b>'Think in systems, not just models.'</b> Ethical assessment requires looking at the entire ecosystem: data sources, developers, users, and the impact of predictions."
+                },
+                {
+                    front: "Course Takeaway 3: Rules",
+                    back: "<b>'Learn the rules to make better ones.'</b> Understand existing regulations (like GDPR) to develop responsibly and contribute to creating better rules for the future."
+                }
+            ];
+
+            let currentCardIndex = 0;
+
+            const cardContainer = document.getElementById('card-container');
+            const cardInner = document.getElementById('card-inner');
+            const cardFrontContent = document.getElementById('card-front-content');
+            const cardBackContent = document.getElementById('card-back-content');
+            const progressIndicator = document.getElementById('progress-indicator');
+            const lectureTitle = document.getElementById('lecture-title');
+            
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const shuffleBtn = document.getElementById('shuffle-btn');
+
+            function showCard(index) {
+                if (index < 0 || index >= flashcards.length) return;
+                
+                // Unflip the card if it was flipped
+                cardContainer.classList.remove('flipped');
+                
+                setTimeout(() => {
+                    cardFrontContent.textContent = flashcards[index].front;
+                    cardBackContent.innerHTML = flashcards[index].back; // Use innerHTML to render bold tags etc.
+                    progressIndicator.textContent = `${index + 1} / ${flashcards.length}`;
+                }, 150); // Delay content update to sync with flip-back animation
+            }
+            
+            function shuffleCards() {
+                // Fisher-Yates shuffle algorithm
+                for (let i = flashcards.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+                }
+                currentCardIndex = 0;
+                showCard(currentCardIndex);
+            }
+
+            // -- Event Listeners --
+            cardContainer.addEventListener('click', () => {
+                cardContainer.classList.toggle('flipped');
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                currentCardIndex = (currentCardIndex - 1 + flashcards.length) % flashcards.length;
+                showCard(currentCardIndex);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+                showCard(currentCardIndex);
+            });
+            
+            shuffleBtn.addEventListener('click', () => {
+                shuffleCards();
+            });
+            
+            // Initial Load
+            showCard(currentCardIndex);
+        });
+    </script>
+
+</body>
+</html>
+
